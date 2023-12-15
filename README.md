@@ -93,4 +93,15 @@
 - **리뷰 삭제**
   - 관리자와 리뷰 작성자만 영화 리뷰를 삭제할 수 있습니다.
   - 해당 영화가 삭제되면 함께 삭제됩니다.
-   
+
+---
+## Tech Stack
+<div align=left> 
+<img src="https://img.shields.io/badge/IntelliJ IDEA-000000?style=flat&logo=IntelliJ IDEA&logoColor=white"/> 
+<img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white"/> 
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white"/> 
+<img src="https://img.shields.io/badge/Spring-6DB33F?style=flat&logo=Spring&logoColor=white"/>
+<img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat&logo=Spring Security&logoColor=white"/>
+<img src="https://img.shields.io/badge/Redis-DC382D?style=flat&logo=Redis&logoColor=white"/>
+
+</div>
