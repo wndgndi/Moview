@@ -95,6 +95,11 @@
   - 관리자와 리뷰 작성자만 영화 리뷰를 삭제할 수 있습니다.
   - 해당 영화가 삭제되면 함께 삭제됩니다.
 
+ <br> <br>
+
+  
+![movie_erd](https://github.com/wndgndi/Moview/assets/102509248/8ed9f69a-8bff-4089-b8b0-5a29a80022a1)
+
 ---
 ## Tech Stack
 <div align=left> 
