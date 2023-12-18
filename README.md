@@ -98,7 +98,8 @@
  <br> <br>
 
   
-![movie_erd](https://github.com/wndgndi/Moview/assets/102509248/8ed9f69a-8bff-4089-b8b0-5a29a80022a1)
+![movie_erd](https://github.com/wndgndi/Moview/assets/102509248/ffb25a80-95fc-4e24-b465-14eb3b3125f6)
+
 
 ---
 ## Tech Stack
