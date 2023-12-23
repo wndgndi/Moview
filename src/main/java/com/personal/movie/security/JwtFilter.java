@@ -1,7 +1,5 @@
 package com.personal.movie.security;
 
-import com.personal.movie.domain.constants.ErrorCode;
-import com.personal.movie.exception.CustomException;
 import com.personal.movie.util.RedisUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
