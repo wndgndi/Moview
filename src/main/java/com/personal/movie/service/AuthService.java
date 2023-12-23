@@ -12,12 +12,8 @@ import com.personal.movie.exception.CustomException;
 import com.personal.movie.repository.MemberRepository;
 import com.personal.movie.security.TokenProvider;
 import com.personal.movie.util.RedisUtil;
-import com.personal.movie.util.SecurityUtil;
-import io.jsonwebtoken.Claims;
 import jakarta.validation.constraints.NotBlank;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -104,7 +100,7 @@ public class AuthService {
 
     private void validateMemberName(MemberRequest request) {
         if (memberRepository.existsByMemberName(request.getMemberName())) {
-            throw new CustomException(ErrorCode.ALREADY_EXIST_USER);
+            throw new CustomException(ErrorCode.ALREADY_EXIST_MEMBER);
         }
     }
 
