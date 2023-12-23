@@ -92,7 +92,7 @@ public class AuthService {
 
         Authentication authentication = tokenProvider.getAuthentication(request.getAccessToken());
 
-        if (redisUtil.getData(request.getRefreshToken()) == null) {
+        if (redisUtil.getData(authentication.getName()) == null) {
             throw new CustomException(ErrorCode.MEMBER_LOGGED_OUT);
         }
 

@@ -22,7 +22,7 @@ public class MailService {
     public void sendAuthEmail(String email) {
         String authKey = getAuthKey();
         String subject = "Moview 인증 메일입니다.";
-        String msgOfEmail="";
+        String msgOfEmail = "";
         long duration = 60 * 10L;
         msgOfEmail += "<div style='margin:20px;'>";
         msgOfEmail += "<h1> Moview 인증 메일입니다.</h1>";
@@ -38,10 +38,10 @@ public class MailService {
         msgOfEmail += authKey + "</strong><div><br/> ";
         msgOfEmail += "</div>";
 
-
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8"); // true 는 멀티파트 메세지를 사용하겠다는 의미
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true,
+                "utf-8"); // true 는 멀티파트 메세지를 사용하겠다는 의미
 
             helper.setTo(email);
             helper.setSubject(subject);
@@ -66,12 +66,11 @@ public class MailService {
         StringBuilder authKey = new StringBuilder();
 
         for (int i = 0; i < 10; i++) {
-            int idx =(int) (charSet.length * Math.random());
+            int idx = (int) (charSet.length * Math.random());
             authKey.append(charSet[idx]);
         }
 
         log.info("인증키 생성");
-        System.out.println(authKey.toString());
         return authKey.toString();
     }
 }
