@@ -1,12 +1,14 @@
 package com.personal.movie.domain;
 
 import com.personal.movie.domain.constants.Role;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,12 +22,14 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String memberName;   // 아이디
 
     private String password;   // 비밀번호
 
     private String name;   // 이름
 
+    @Column(unique = true)
     private String email;   // 이메일
 
     private String phoneNumber;  // 전화번호
