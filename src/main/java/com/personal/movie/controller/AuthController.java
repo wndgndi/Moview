@@ -22,21 +22,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
-    private final MailService mailService;
 
     @PostMapping("/signup")
     public ResponseEntity<MemberResponse> signup(@RequestBody MemberRequest request) {
         return ResponseEntity.ok(authService.signup(request));
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody MemberRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestBody TokenDto tokenDto) {
-        return ResponseEntity.ok(authService.logout(tokenDto));
+        return ResponseEntity.ok(authService.logout(tokenDto) + " 님이 정상적으로 로그아웃 되었습니다.");
     }
 
     @PostMapping("/reissue")
@@ -44,14 +43,16 @@ public class AuthController {
         return ResponseEntity.ok(authService.reissue(request));
     }
 
-    @GetMapping("/email")
+    @PostMapping("/email")
     public ResponseEntity<String> validateEmail(@RequestBody MailRequest request) {
-        return ResponseEntity.ok(authService.validateEmail(request));
+        authService.validateEmail(request);
+        return ResponseEntity.ok("메일을 전송했습니다.");
     }
 
-    @GetMapping("/key")
+    @PostMapping("/key")
     public ResponseEntity<String> validateAuthKey(@RequestParam String email,
         @RequestParam String key) {
-        return ResponseEntity.ok(authService.validateAuthKey(email, key));
+        authService.validateAuthKey(email, key);
+        return ResponseEntity.ok("인증이 성공했습니다.");
     }
 }
