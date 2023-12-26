@@ -7,18 +7,25 @@ import com.personal.movie.dto.response.MemberResponse;
 import com.personal.movie.exception.CustomException;
 import com.personal.movie.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
     private final AuthService authService;
 
     public MemberResponse deleteMember(Long memberId) {
         Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+
+        authService.checkAuthorization(member);
+
         memberRepository.deleteById(memberId);
 
         return MemberResponse.fromEntity(member);
@@ -33,16 +40,14 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
-        if (memberRepository.existsByMemberName(request.getMemberName())) {
-            throw new CustomException(ErrorCode.ALREADY_EXIST_MEMBER);
-        }
-        member.updateMemberName(request.getMemberName());
+        authService.checkAuthorization(member);
 
-        if (memberRepository.existsByEmail(request.getEmail())) {
+        if (!member.getEmail().equals(request.getEmail()) && memberRepository.existsByEmail(
+            request.getEmail())) {
             throw new CustomException(ErrorCode.ALREADY_EXIST_EMAIL);
         }
         member.updateEmail(request.getEmail());
-        member.updatePassword(request.getPassword());
+        member.updatePassword(passwordEncoder.encode(request.getPassword()));
         member.updateName(request.getName());
         member.updatePhoneNumber(request.getPhoneNumber());
 

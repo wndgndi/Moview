@@ -12,6 +12,7 @@ public enum ErrorCode {
     AUTH_KEY_NOT_MATCH(404, "인증키가 일치하지 않습니다."),
     NO_AUTHORITIES(422, "권한 정보가 존재하지 않습니다."),
     EMPTY_SECURITY_CONTEXT(401, "Security Context 에 인증 정보가 없습니다."),
+    AUTHORITY_MISMATCH(401, "본인 혹은 관리자만 사용 가능합니다."),
     INVALID_ACCESS_TOKEN(401, "유효하지 않은 Access Token 입니다."),
     INVALID_REFRESH_TOKEN(401, "유효하지 않은 Refresh Token 입니다."),
     MEMBER_LOGGED_OUT(401, "로그아웃 된 회원입니다."),

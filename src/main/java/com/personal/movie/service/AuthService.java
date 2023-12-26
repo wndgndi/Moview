@@ -12,12 +12,14 @@ import com.personal.movie.exception.CustomException;
 import com.personal.movie.repository.MemberRepository;
 import com.personal.movie.security.TokenProvider;
 import com.personal.movie.util.RedisUtil;
+import com.personal.movie.util.SecurityUtil;
 import jakarta.validation.constraints.NotBlank;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -124,4 +126,20 @@ public class AuthService {
         return "인증이 성공하였습니다.";
     }
 
+    public void checkAuthorization(Member member) {
+        final Authentication authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+
+        if (authentication == null || authentication.getName() == null) {
+            throw new CustomException(ErrorCode.EMPTY_SECURITY_CONTEXT);
+        }
+
+        String currentMemberName = authentication.getName();
+
+        if (!currentMemberName.equals(member.getMemberName()) &&
+            authentication.getAuthorities().stream()
+                .noneMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()))) {
+            throw new CustomException(ErrorCode.AUTHORITY_MISMATCH);
+        }
+    }
 }
