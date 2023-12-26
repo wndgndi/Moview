@@ -1,6 +1,6 @@
 package com.personal.movie.security;
 
-import com.personal.movie.util.RedisUtil;
+import com.personal.movie.component.RedisComponent;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ public class JwtFilter extends OncePerRequestFilter {
     public static final String TOKEN_PREFIX = "Bearer ";
 
     private final TokenProvider tokenProvider;
-    private final RedisUtil redisUtil;
+    private final RedisComponent redisComponent;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -32,7 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = resolveToken(request);
 
         if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
-            String isLogout = redisUtil.getData(token);
+            String isLogout = redisComponent.getData(token);
 
             if (isLogout != null) {
                 throw new RuntimeException("로그아웃 된 회원입니다.");

@@ -1,15 +1,15 @@
-package com.personal.movie.util;
+package com.personal.movie.component;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class RedisUtil {
+public class RedisComponent {
 
     private final StringRedisTemplate redisTemplate;
 

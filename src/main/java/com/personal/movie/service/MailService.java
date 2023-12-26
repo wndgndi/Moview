@@ -1,6 +1,6 @@
 package com.personal.movie.service;
 
-import com.personal.movie.util.RedisUtil;
+import com.personal.movie.component.RedisComponent;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MailService {
 
     private final JavaMailSender javaMailSender;
-    private final RedisUtil redisUtil;
+    private final RedisComponent redisComponent;
 
     public void sendAuthEmail(String email) {
         String authKey = getAuthKey();
@@ -48,13 +48,13 @@ public class MailService {
             helper.setText(msgOfEmail, true);
             javaMailSender.send(mimeMessage);
 
-            log.info("메일 전송 완료");
+            log.warn("메일 전송 완료");
         } catch (MessagingException e) {
             e.printStackTrace();
         }
 
-        redisUtil.setDataExpire(email, authKey, duration);
-        log.info("레디스 저장");
+        redisComponent.setDataExpire(email, authKey, duration);
+        log.warn("레디스 저장");
     }
 
     private String getAuthKey() {
