@@ -8,6 +8,7 @@ import com.personal.movie.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
@@ -37,6 +38,7 @@ public class SecurityConfig {
             .sessionManagement(
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((matcher) -> matcher.requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/member/**").hasAnyRole("USER, ADMIN")
                 .anyRequest().authenticated())
             .exceptionHandling((exceptionHandling) ->
                 exceptionHandling
