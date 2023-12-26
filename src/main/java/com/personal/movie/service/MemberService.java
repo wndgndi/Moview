@@ -2,11 +2,14 @@ package com.personal.movie.service;
 
 import com.personal.movie.domain.Member;
 import com.personal.movie.domain.constants.ErrorCode;
+import com.personal.movie.domain.constants.Role;
 import com.personal.movie.dto.request.MemberRequest;
 import com.personal.movie.dto.response.MemberResponse;
 import com.personal.movie.exception.CustomException;
 import com.personal.movie.repository.MemberRepository;
+import com.personal.movie.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +45,12 @@ public class MemberService {
 
         authService.checkAuthorization(member);
 
-        if (!member.getEmail().equals(request.getEmail()) && memberRepository.existsByEmail(
+        String currentMemberName = SecurityUtil.getCurrentMemberName();
+        Member currentMember = memberRepository.findByMemberName(currentMemberName)
+            .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+
+        if (!member.getMemberName().equals(currentMemberName) && !currentMember.getRole()
+            .equals(Role.ROLE_ADMIN) && memberRepository.existsByEmail(
             request.getEmail())) {
             throw new CustomException(ErrorCode.ALREADY_EXIST_EMAIL);
         }
