@@ -21,6 +21,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     public static final String TOKEN_HEADER = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer ";
+    public static final String LOG_OUT_PREFIX = "LOGGED_OUT: ";
 
     private final TokenProvider tokenProvider;
     private final RedisComponent redisComponent;
@@ -32,13 +33,13 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = resolveToken(request);
 
         if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
-            String isLogout = redisComponent.getData(token);
+            Authentication authentication = tokenProvider.getAuthentication(token);
+            String isLogout = redisComponent.getData(
+                LOG_OUT_PREFIX + authentication.getName());
 
             if (isLogout != null) {
                 throw new RuntimeException("로그아웃 된 회원입니다.");
             }
-
-            Authentication authentication = tokenProvider.getAuthentication(token);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 

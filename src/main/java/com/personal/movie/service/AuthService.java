@@ -62,6 +62,7 @@ public class AuthService {
 
     public String logout(TokenDto tokenDto) {
         String accessToken = tokenDto.getAccessToken();
+        final String LOG_OUT_PREFIX = "LOGGED_OUT: ";
 
         if (!tokenProvider.validateToken(accessToken)) {
             throw new CustomException(ErrorCode.INVALID_ACCESS_TOKEN);
@@ -77,7 +78,7 @@ public class AuthService {
             tokenProvider.getRemainingTime(accessToken));
 
         if (remainingTime > 0) {
-            redisUtil.setDataExpire(accessToken, authentication.getName() + ": logout",
+            redisUtil.setDataExpire(LOG_OUT_PREFIX + authentication.getName(), accessToken,
                 remainingTime);
         }
 
@@ -97,7 +98,8 @@ public class AuthService {
         }
 
         TokenDto tokenDto = tokenProvider.generateToken(authentication);
-        redisUtil.setDataExpire(authentication.getName(), tokenDto.getRefreshToken(), duration);
+        redisUtil.setDataExpire(REFRESH_TOKEN_PREFIX + authentication.getName(),
+            tokenDto.getRefreshToken(), duration);
 
         return tokenDto;
     }
