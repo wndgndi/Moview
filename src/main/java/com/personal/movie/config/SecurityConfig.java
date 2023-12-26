@@ -3,12 +3,9 @@ package com.personal.movie.config;
 import com.personal.movie.security.JwtAccessDeniedHandler;
 import com.personal.movie.security.JwtAuthenticationEntryPoint;
 import com.personal.movie.security.JwtFilter;
-import com.personal.movie.security.TokenProvider;
-import com.personal.movie.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
@@ -24,8 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
-    private final TokenProvider tokenProvider;
-    private final RedisUtil redisUtil;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
@@ -38,7 +33,7 @@ public class SecurityConfig {
             .sessionManagement(
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((matcher) -> matcher.requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/member/**").hasAnyRole("USER, ADMIN")
+                .requestMatchers("/member/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated())
             .exceptionHandling((exceptionHandling) ->
                 exceptionHandling
