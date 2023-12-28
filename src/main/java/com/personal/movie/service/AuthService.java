@@ -1,5 +1,6 @@
 package com.personal.movie.service;
 
+import com.personal.movie.component.RedisComponent;
 import com.personal.movie.domain.Member;
 import com.personal.movie.domain.constants.ErrorCode;
 import com.personal.movie.domain.constants.Role;
@@ -11,7 +12,6 @@ import com.personal.movie.dto.response.MemberResponse;
 import com.personal.movie.exception.CustomException;
 import com.personal.movie.repository.MemberRepository;
 import com.personal.movie.security.TokenProvider;
-import com.personal.movie.component.RedisComponent;
 import jakarta.validation.constraints.NotBlank;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;

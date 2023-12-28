@@ -9,7 +9,6 @@ import com.personal.movie.exception.CustomException;
 import com.personal.movie.repository.MemberRepository;
 import com.personal.movie.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
