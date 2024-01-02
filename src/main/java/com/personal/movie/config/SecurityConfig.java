@@ -6,6 +6,7 @@ import com.personal.movie.security.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
@@ -34,6 +35,10 @@ public class SecurityConfig {
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((matcher) -> matcher.requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/member/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/movie").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/movie").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/movie").hasRole("ADMIN")
+
                 .anyRequest().authenticated())
             .exceptionHandling((exceptionHandling) ->
                 exceptionHandling

@@ -16,6 +16,8 @@ public enum ErrorCode {
     INVALID_ACCESS_TOKEN(401, "유효하지 않은 Access Token 입니다."),
     INVALID_REFRESH_TOKEN(401, "유효하지 않은 Refresh Token 입니다."),
     MEMBER_LOGGED_OUT(401, "로그아웃 된 회원입니다."),
+    MOVIE_NOT_FOUND(404, "영화를 찾을 수 없습니다."),
+    ALREADY_EXIST_MOVIE(409, "이미 존재하는 영화 ID 입니다."),
     INTERNAL_SERVER_ERROR(500, "서버 에러가 발생했습니다. 고객센터로 문의 바랍니다.");
 
 
