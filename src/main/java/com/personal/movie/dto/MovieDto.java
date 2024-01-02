@@ -1,9 +1,6 @@
 package com.personal.movie.dto;
 
 import com.personal.movie.domain.Movie;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,10 +9,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class MovieDto {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private boolean adult;   // 성인 영화 여부
 
@@ -62,21 +55,21 @@ public class MovieDto {
             .build();
     }
 
-    public MovieDto fromEntity(Movie movie) {
+    public static MovieDto fromEntity(Movie movie) {
         return MovieDto.builder()
-            .adult(adult)
-            .backdropPath(backdropPath)
-            .movieId(movieId)
-            .originalLanguage(originalLanguage)
-            .originalTitle(originalTitle)
-            .overview(overview)
-            .popularity(popularity)
-            .posterPath(posterPath)
-            .releaseDate(releaseDate)
-            .title(title)
-            .voteAverage(voteAverage)
-            .voteCount(voteCount)
-            .genre(genre)
+            .adult(movie.isAdult())
+            .backdropPath(movie.getBackdropPath())
+            .movieId(movie.getMovieId())
+            .originalLanguage(movie.getOriginalLanguage())
+            .originalTitle(movie.getOriginalTitle())
+            .overview(movie.getOverview())
+            .popularity(movie.getPopularity())
+            .posterPath(movie.getPosterPath())
+            .releaseDate(movie.getReleaseDate())
+            .title(movie.getTitle())
+            .voteAverage(movie.getVoteAverage())
+            .voteCount(movie.getVoteCount())
+            .genre(movie.getGenre())
             .build();
     }
 }

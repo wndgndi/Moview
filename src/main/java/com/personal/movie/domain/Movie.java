@@ -1,5 +1,6 @@
 package com.personal.movie.domain;
 
+import com.personal.movie.dto.MovieDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -48,4 +49,20 @@ public class Movie {
     private double voteAverage;   //  평점
 
     private int voteCount;  // 투표수
+
+    public void updateMovie(MovieDto movieDto) {
+        this.adult = movieDto.isAdult();
+        this.genre = movieDto.getGenre();
+        this.backdropPath = movieDto.getBackdropPath();
+        this.movieId = movieDto.getMovieId();
+        this.originalLanguage = movieDto.getOriginalLanguage();
+        this.originalTitle = movieDto.getOriginalTitle();
+        this.overview = movieDto.getOverview();
+        this.popularity = movieDto.getPopularity();
+        this.posterPath = movieDto.getPosterPath();
+        this.releaseDate = movieDto.getReleaseDate();
+        this.title = movieDto.getTitle();
+        this.voteAverage = movieDto.getVoteAverage();
+        this.voteCount = movieDto.getVoteCount();
+    }
 }
