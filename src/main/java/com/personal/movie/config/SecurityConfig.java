@@ -35,9 +35,8 @@ public class SecurityConfig {
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((matcher) -> matcher.requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/member/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers(HttpMethod.POST, "/movie").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/movie").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/movie").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/movie/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/movie/**").hasRole("ADMIN")
 
                 .anyRequest().authenticated())
             .exceptionHandling((exceptionHandling) ->

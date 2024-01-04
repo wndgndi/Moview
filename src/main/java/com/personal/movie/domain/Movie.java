@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -49,6 +51,12 @@ public class Movie {
     private double voteAverage;   //  평점
 
     private int voteCount;  // 투표수
+
+    @OneToMany(mappedBy = "movie")
+    private List<History> history;
+
+    @OneToMany(mappedBy = "movie")
+    private List<Favorite> favorite;
 
     public void updateMovie(MovieDto movieDto) {
         this.adult = movieDto.isAdult();
