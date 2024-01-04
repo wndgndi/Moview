@@ -49,7 +49,7 @@ public class MovieController {
     }
 
     @PostMapping("/popular")
-    public ResponseEntity<List<MovieDto>> insertPopularMovies() {
+    public ResponseEntity<List<MovieDto>> getPopularMovies() {
         return ResponseEntity.ok(movieService.getPopularMovies(apiKey));
     }
 
