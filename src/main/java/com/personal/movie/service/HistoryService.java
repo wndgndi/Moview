@@ -11,7 +11,9 @@ import com.personal.movie.repository.MovieRepository;
 import com.personal.movie.util.SecurityUtil;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,24 +26,26 @@ public class HistoryService {
 
     public List<MovieDto> getHistory() {
         Member member = memberRepository.findByMemberName(SecurityUtil.getCurrentMemberName())
-            .orElseThrow(() -> new CustomException(
-                ErrorCode.MEMBER_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
-        List<MovieDto> movies = new ArrayList<>();
         List<History> histories = historyRepository.findByMemberOrderByUpdatedDate(member);
 
-        for (int i = 0; i < histories.size(); i++) {
-            History history = histories.get(i);
-            MovieDto movie = MovieDto.fromEntity(
-                movieRepository.findById(history.getMovie().getId())
-                    .orElseThrow(() -> new CustomException(ErrorCode.MOVIE_NOT_FOUND)));
-            movies.add(movie);
-        }
-
-        return movies;
+        return histories.stream().map(history -> MovieDto.fromEntity(history.getMovie()))
+            .collect(Collectors.toList());
     }
 
     public void deleteHistory(Long historyId) {
-        historyRepository.deleteById(historyId);
+        Member member = memberRepository.findByMemberName(SecurityUtil.getCurrentMemberName())
+            .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+
+        History history = historyRepository.findById(historyId)
+            .orElseThrow(() -> new CustomException(ErrorCode.HISTORY_NOT_FOUND));
+
+        if (history.getMember().equals(member)) {
+            historyRepository.delete(history);
+        } else {
+            throw new CustomException(ErrorCode.MEMBER_NOT_MATCH);
+        }
+
     }
 }

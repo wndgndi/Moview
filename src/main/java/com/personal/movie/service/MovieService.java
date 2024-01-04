@@ -1,6 +1,8 @@
 package com.personal.movie.service;
 
 import com.google.gson.Gson;
+import com.personal.movie.domain.History;
+import com.personal.movie.domain.Member;
 import com.personal.movie.domain.Movie;
 import com.personal.movie.domain.constants.ErrorCode;
 import com.personal.movie.dto.MovieDto;
@@ -9,7 +11,10 @@ import com.personal.movie.dto.response.MovieByPersonResponse;
 import com.personal.movie.dto.response.MovieResultResponse;
 import com.personal.movie.dto.response.PersonResponse;
 import com.personal.movie.exception.CustomException;
+import com.personal.movie.repository.HistoryRepository;
+import com.personal.movie.repository.MemberRepository;
 import com.personal.movie.repository.MovieRepository;
+import com.personal.movie.util.SecurityUtil;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,6 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +36,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class MovieService {
 
+    private final MemberRepository memberRepository;
     private final MovieRepository movieRepository;
+    private final HistoryRepository historyRepository;
     private final Gson gson;
 
     public MovieDto insertMovie(MovieDto movieDto) {
@@ -42,8 +50,36 @@ public class MovieService {
     }
 
     public MovieDto getMovie(Long id) {
-        return MovieDto.fromEntity(movieRepository.findById(id)
-            .orElseThrow(() -> new CustomException(ErrorCode.MOVIE_NOT_FOUND)));
+        Member member = memberRepository.findByMemberName(SecurityUtil.getCurrentMemberName())
+            .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+        Movie movie = movieRepository.findById(id)
+            .orElseThrow(() -> new CustomException(ErrorCode.MOVIE_NOT_FOUND));
+
+        // 이미 히스토리에 존재하는 영화일 경우, 수정날짜만 최신화해서 가장 최근 조회한 영화 조회 가능하도록 함
+        if (historyRepository.existsByMember_IdAndMovie_Id(member.getId(), id)) {
+            History history = historyRepository.findByMember_IdAndMovie_Id(member.getId(), id)
+                .orElseThrow(() -> new CustomException(ErrorCode.HISTORY_NOT_FOUND));
+
+            history.setUpdatedDate(LocalDateTime.now());
+            historyRepository.save(history);
+
+            return MovieDto.fromEntity(movie);
+        }
+
+        List<History> histories = historyRepository.findByMemberOrderByUpdatedDate(member);
+
+        // 회원의 히스토리 내역이 10개를 초과하면 가장 오래된 히스토리를 삭제
+        if (histories.size() >= 10) {
+            History oldestHistory = histories.get(0);
+            historyRepository.delete(oldestHistory);
+        }
+
+        History history = new History();
+        history.setMember(member);
+        history.setMovie(movie);
+        historyRepository.save(history);
+
+        return MovieDto.fromEntity(movie);
     }
 
     public MovieDto updateMovie(Long id, MovieDto movieDto) {
@@ -233,7 +269,7 @@ public class MovieService {
         return isEmpty;
     }
 
-    private List<Movie> toEntity(List<MovieResultResponse> movieResultList) {
+    private List<Movie> resultToEntity(List<MovieResultResponse> movieResultList) {
         List<Movie> movies = movieResultList.stream()
             .map(MovieResultResponse::toEntity)
             .collect(Collectors.toList());
@@ -242,13 +278,20 @@ public class MovieService {
     }
 
     private List<MovieDto> saveMovies(List<MovieResultResponse> movieResultList) {
-        List<Movie> movies = toEntity(movieResultList);
+        List<Movie> movies = resultToEntity(movieResultList);
+        List<MovieDto> storeMovies = new ArrayList<>();
 
-        movieRepository.saveAll(movies);
+        // DB 에 이미 존재하는 영화는 무시하고, 존재하지 않는 영화만 저장
+        for (Movie movie : movies) {
+            Movie existingMovie = movieRepository.findByMovieId(movie.getMovieId());
 
-        return movies.stream()
-            .map(MovieDto::fromEntity)
-            .collect(Collectors.toList());
+            if (existingMovie == null) {
+                movieRepository.save(movie);
+                storeMovies.add(MovieDto.fromEntity(movie));
+            }
+        }
+
+        return storeMovies;
     }
 
 }

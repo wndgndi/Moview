@@ -11,7 +11,7 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
 
     List<History> findByMemberOrderByUpdatedDate(Member member);
 
-    boolean existsByMovie_Id(Long id);
+    boolean existsByMember_IdAndMovie_Id(Long member_id, Long movie_id);
 
-    Optional<History> findByMovie_Id(Long id);
+    Optional<History> findByMember_IdAndMovie_Id(Long member_id, Long movie_id);
 }
