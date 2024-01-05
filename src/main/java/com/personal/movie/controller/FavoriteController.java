@@ -24,7 +24,7 @@ public class FavoriteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MovieDto>> getFavorites() {
-        return ResponseEntity.ok(favoriteService.getFavorites());
+    public ResponseEntity<List<MovieDto>> getFavorite() {
+        return ResponseEntity.ok(favoriteService.getFavorite());
     }
 }

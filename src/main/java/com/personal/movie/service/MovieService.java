@@ -271,6 +271,7 @@ public class MovieService {
 
     private List<Movie> resultToEntity(List<MovieResultResponse> movieResultList) {
         List<Movie> movies = movieResultList.stream()
+            // DB에 저장하기 위해 장르를 정수형에서 문자열로 바꾸고 엔티티로 만들어줍니다.
             .map(MovieResultResponse::toEntity)
             .collect(Collectors.toList());
 

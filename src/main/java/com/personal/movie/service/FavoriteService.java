@@ -10,7 +10,6 @@ import com.personal.movie.repository.FavoriteRepository;
 import com.personal.movie.repository.MemberRepository;
 import com.personal.movie.repository.MovieRepository;
 import com.personal.movie.util.SecurityUtil;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +46,7 @@ public class FavoriteService {
         return MovieDto.fromEntity(movie);
     }
 
-    public List<MovieDto> getFavorites() {
+    public List<MovieDto> getFavorite() {
         String memberName = SecurityUtil.getCurrentMemberName();
 
         Member member = memberRepository.findByMemberName(memberName)

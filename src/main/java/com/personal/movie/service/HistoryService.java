@@ -9,11 +9,9 @@ import com.personal.movie.repository.HistoryRepository;
 import com.personal.movie.repository.MemberRepository;
 import com.personal.movie.repository.MovieRepository;
 import com.personal.movie.util.SecurityUtil;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
