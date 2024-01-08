@@ -39,10 +39,10 @@ public class Member extends BaseEntity {
     private Role role;   // 권한
 
     @OneToMany(mappedBy = "member")
-    private List<History> history;
+    private List<History> histories;
 
     @OneToMany(mappedBy = "member")
-    private List<Favorite> favorite;
+    private List<Favorite> favorites;
 
     @Builder
     public Member(String memberName, String password, String name, String email,

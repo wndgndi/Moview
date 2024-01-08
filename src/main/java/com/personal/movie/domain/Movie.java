@@ -53,10 +53,10 @@ public class Movie {
     private int voteCount;  // 투표수
 
     @OneToMany(mappedBy = "movie")
-    private List<History> history;
+    private List<History> histories;
 
     @OneToMany(mappedBy = "movie")
-    private List<Favorite> favorite;
+    private List<Favorite> favorites;
 
     public void updateMovie(MovieDto movieDto) {
         this.adult = movieDto.isAdult();

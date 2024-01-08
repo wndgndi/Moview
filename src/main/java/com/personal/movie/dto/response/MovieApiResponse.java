@@ -1,5 +1,6 @@
 package com.personal.movie.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 import lombok.Getter;
@@ -9,16 +10,16 @@ import lombok.Setter;
 @Setter
 public class MovieApiResponse {
 
-    @SerializedName("page")
+    @JsonProperty("page")
     private int page;
 
-    @SerializedName("results")
+    @JsonProperty("results")
     private List<MovieResultResponse> results;
 
-    @SerializedName("total_pages")
+    @JsonProperty("total_pages")
     private int totalPages;
 
-    @SerializedName("total_results")
+    @JsonProperty("total_results")
     private int totalResults;
 
 }

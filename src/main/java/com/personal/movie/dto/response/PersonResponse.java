@@ -1,6 +1,6 @@
 package com.personal.movie.dto.response;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,18 +9,18 @@ import lombok.Setter;
 @Setter
 public class PersonResponse {
 
-    @SerializedName("id")
+    @JsonProperty("id")
     private Long PersonId;
 
-    @SerializedName("known_for_department")
+    @JsonProperty("known_for_department")
     private String knownForDepartment;
 
-    @SerializedName("name")
+    @JsonProperty("name")
     private String name;
 
-    @SerializedName("popularity")
+    @JsonProperty("popularity")
     private double popularity;
 
-    @SerializedName("known_for")
+    @JsonProperty("known_for")
     private List<MovieResultResponse> knownFor;
 }
