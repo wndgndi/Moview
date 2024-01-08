@@ -8,7 +8,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.OneToMany;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,11 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;   // 권한
 
+    @OneToMany(mappedBy = "member")
+    private List<History> histories;
+
+    @OneToMany(mappedBy = "member")
+    private List<Favorite> favorites;
 
     @Builder
     public Member(String memberName, String password, String name, String email,
@@ -47,10 +53,6 @@ public class Member extends BaseEntity {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.role = role;
-    }
-
-    public void updateMemberName(String memberName) {
-        this.memberName = memberName;
     }
 
     public void updatePassword(String password) {
