@@ -21,6 +21,9 @@ public enum ErrorCode {
     ALREADY_EXIST_MOVIE(409, "이미 존재하는 영화 ID 입니다."),
     HISTORY_NOT_FOUND(404, "히스토리를 찾을 수 없습니다."),
     FAVORITE_NOT_FOUND(404, "관심영화를 찾을 수 없습니다."),
+    REVIEW_NOT_FOUND(404, "리뷰를 찾을 수 없습니다."),
+    ALREADY_EXIST_REVIEW(409, "이미 리뷰를 작성한 영화입니다."),
+    TOO_MANY_IMAGES(409, "등록 가능한 이미지 개수를 초과했습니다."),
     INTERNAL_SERVER_ERROR(500, "서버 에러가 발생했습니다. 고객센터로 문의 바랍니다.");
 
 
