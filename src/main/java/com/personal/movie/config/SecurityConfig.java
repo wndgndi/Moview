@@ -37,6 +37,9 @@ public class SecurityConfig {
                 .requestMatchers("/member/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/movie/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/movie/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/review").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/review/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/review/**").hasAnyRole("USER", "ADMIN")
 
                 .anyRequest().authenticated())
             .exceptionHandling((exceptionHandling) ->
