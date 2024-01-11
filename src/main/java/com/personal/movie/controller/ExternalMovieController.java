@@ -2,7 +2,6 @@ package com.personal.movie.controller;
 
 import com.personal.movie.dto.MovieDto;
 import com.personal.movie.service.ExternalMovieService;
-import com.personal.movie.service.MovieService;
 import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
 
 @RestController
 @RequiredArgsConstructor

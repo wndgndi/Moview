@@ -48,8 +48,8 @@ public class MemberService {
         Member currentMember = memberRepository.findByMemberName(currentMemberName)
             .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
-        if (!member.getMemberName().equals(currentMemberName) && !currentMember.getRole()
-            .equals(Role.ROLE_ADMIN) && memberRepository.existsByEmail(
+        if (!member.getMemberName().equals(currentMemberName) && currentMember.getRole()
+            != Role.ROLE_ADMIN && memberRepository.existsByEmail(
             request.getEmail())) {
             throw new CustomException(ErrorCode.ALREADY_EXIST_EMAIL);
         }

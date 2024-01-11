@@ -1,7 +1,6 @@
 package com.personal.movie.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gson.annotations.SerializedName;
 import com.personal.movie.domain.Movie;
 import com.personal.movie.domain.constants.Genre;
 import jakarta.persistence.Column;
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 
 @Setter

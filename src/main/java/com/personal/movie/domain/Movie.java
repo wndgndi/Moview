@@ -58,6 +58,9 @@ public class Movie {
     @OneToMany(mappedBy = "movie")
     private List<Favorite> favorites;
 
+    @OneToMany(mappedBy = "movie")
+    private List<Review> reviews;
+
     public void updateMovie(MovieDto movieDto) {
         this.adult = movieDto.isAdult();
         this.genre = movieDto.getGenre();

@@ -44,6 +44,9 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Favorite> favorites;
 
+    @OneToMany(mappedBy = "member")
+    private List<Review> reviews;
+
     @Builder
     public Member(String memberName, String password, String name, String email,
         String phoneNumber, Role role) {

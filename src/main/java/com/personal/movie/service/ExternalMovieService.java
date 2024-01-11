@@ -8,8 +8,6 @@ import com.personal.movie.dto.response.MovieResultResponse;
 import com.personal.movie.dto.response.PersonResponse;
 import com.personal.movie.repository.MovieRepository;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,8 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
-import org.springframework.http.HttpStatus;
 
 @Service
 @RequiredArgsConstructor
