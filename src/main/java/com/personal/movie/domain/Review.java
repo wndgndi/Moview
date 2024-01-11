@@ -1,6 +1,7 @@
 package com.personal.movie.domain;
 
 import com.personal.movie.domain.constants.Star;
+import com.personal.movie.dto.request.MemberRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -54,5 +55,13 @@ public class Review extends BaseEntity {
 
     public void setImages(List<Image> images) {
         this.images = images;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 }

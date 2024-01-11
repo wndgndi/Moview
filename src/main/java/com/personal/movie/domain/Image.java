@@ -33,7 +33,7 @@ public class Image extends BaseEntity {
     private String extension;
 
     @ManyToOne
-    @JoinColumn(name = "image_id")
+    @JoinColumn(name = "review_id")
     private Review review;
 
     public void setReview(Review review) {

@@ -53,36 +53,36 @@ public class ReviewService {
             throw new CustomException(ErrorCode.TOO_MANY_IMAGES);
         }
 
-        // 리뷰 내용 저장
         Movie movie = movieRepository.findById(id)
             .orElseThrow(() -> new CustomException(ErrorCode.MOVIE_NOT_FOUND));
 
-        request.setMember(member);
-        request.setMovie(movie);
+        Review review = request.toEntity();
+        review.setMember(member);
+        review.setMovie(movie);
+        reviewRepository.save(review);
 
-        Review review = reviewRepository.save(request.toEntity());
         List<Image> images = new ArrayList<>();
 
-        log.warn("multiPartFile : {}", (Object) multipartFiles);
+        log.info("multiPartFile : {}", (Object) multipartFiles);
         for (MultipartFile multipartFile : multipartFiles) {
             String originalName = multipartFile.getOriginalFilename();
-            log.warn("originalName : {}", originalName);
+            log.info("originalName : {}", originalName);
 
             long size = multipartFile.getSize();
-            log.warn("size : {}", size);
+            log.info("size : {}", size);
 
             if (size == 0) {
                 break;
             }
 
             String contentType = multipartFile.getContentType();
-            log.warn("contentType : {}", contentType);
+            log.info("contentType : {}", contentType);
 
             UUID uuid = UUID.randomUUID();
             String newFileName = uuid + "_" + originalName;
 
             String path = fileDir + File.separator + newFileName;
-            log.warn("fullPath : {}", path);
+            log.info("fullPath : {}", path);
 
             File file = new File(path);
 
@@ -123,7 +123,7 @@ public class ReviewService {
             .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
         if (!currentMember.getMemberName().equals(review.getMember().getMemberName())
-            && !currentMember.getRole().equals(Role.ROLE_ADMIN)) {
+            && currentMember.getRole() != Role.ROLE_ADMIN) {
             throw new CustomException(ErrorCode.MEMBER_NOT_MATCH);
         }
 

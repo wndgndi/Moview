@@ -21,18 +21,12 @@ public class ReviewRequest {
 
     private Star star;
 
-    private Member member;
-
-    private Movie movie;
-
     private List<MultipartFile> images;
 
     public Review toEntity() {
         return Review.builder()
             .content(content)
             .star(star)
-            .member(member)
-            .movie(movie)
             .build();
     }
 }
