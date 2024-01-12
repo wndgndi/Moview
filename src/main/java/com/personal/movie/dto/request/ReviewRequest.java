@@ -1,7 +1,5 @@
 package com.personal.movie.dto.request;
 
-import com.personal.movie.domain.Member;
-import com.personal.movie.domain.Movie;
 import com.personal.movie.domain.Review;
 import com.personal.movie.domain.constants.Star;
 import jakarta.validation.constraints.Size;

@@ -3,7 +3,6 @@ package com.personal.movie.controller;
 import com.personal.movie.dto.request.ReviewRequest;
 import com.personal.movie.dto.response.ReviewResponse;
 import com.personal.movie.service.ReviewService;
-import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,7 @@ public class ReviewController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ReviewResponse> createReview(
-        @RequestPart("review") @Valid ReviewRequest request,
+        @RequestPart("review") ReviewRequest request,
         @RequestPart("movie") Long id,
         @RequestPart("files") List<MultipartFile> multipartFiles) throws IOException {
         return ResponseEntity.ok(reviewService.createReview(request, id, multipartFiles));

@@ -1,7 +1,6 @@
 package com.personal.movie.domain;
 
 import com.personal.movie.domain.constants.Star;
-import com.personal.movie.dto.request.MemberRequest;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
