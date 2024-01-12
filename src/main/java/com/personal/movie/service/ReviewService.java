@@ -143,7 +143,7 @@ public class ReviewService {
             .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
         if (!currentMember.getMemberName().equals(review.getMember().getMemberName())
-            && !currentMember.getRole().equals(Role.ROLE_ADMIN)) {
+            && currentMember.getRole() != Role.ROLE_ADMIN) {
             throw new CustomException(ErrorCode.MEMBER_NOT_MATCH);
         }
 
