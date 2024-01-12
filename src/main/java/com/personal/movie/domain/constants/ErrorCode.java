@@ -26,6 +26,7 @@ public enum ErrorCode {
     TOO_MANY_IMAGES(409, "등록 가능한 이미지 개수를 초과했습니다."),
     POST_NOT_FOUND(404, "게시글을 찾을 수 없습니다."),
     HEART_NOT_FOUND(404, "좋아요를 찾을 수 없습니다."),
+    COMMENT_NOT_FOUND(404, "댓글을 찾을 수 없습니다."),
     INTERNAL_SERVER_ERROR(500, "서버 에러가 발생했습니다. 고객센터로 문의 바랍니다.");
 
 
