@@ -45,7 +45,7 @@ public class PostService {
         Member member = memberRepository.findByMemberName(SecurityUtil.getCurrentMemberName())
             .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
-        if (multipartFiles.size() > 5) {
+        if (multipartFiles.size() > 10) {
             throw new CustomException(ErrorCode.TOO_MANY_IMAGES);
         }
 
