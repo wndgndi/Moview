@@ -61,49 +61,7 @@ public class ReviewService {
         review.setMovie(movie);
         reviewRepository.save(review);
 
-        List<Image> images = new ArrayList<>();
-
-        log.info("multiPartFile : {}", (Object) multipartFiles);
-        for (MultipartFile multipartFile : multipartFiles) {
-            String originalName = multipartFile.getOriginalFilename();
-            log.info("originalName : {}", originalName);
-
-            long size = multipartFile.getSize();
-            log.info("size : {}", size);
-
-            if (size == 0) {
-                break;
-            }
-
-            String contentType = multipartFile.getContentType();
-            log.info("contentType : {}", contentType);
-
-            UUID uuid = UUID.randomUUID();
-            String newFileName = uuid + "_" + originalName;
-
-            String path = fileDir + File.separator + newFileName;
-            log.info("fullPath : {}", path);
-
-            File file = new File(path);
-
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-
-            Image image = Image.builder()
-                .uploadFileName(originalName)
-                .storedFileName(newFileName)
-                .path(path)
-                .fileSize(size)
-                .extension(contentType)
-                .build();
-
-            image.setReview(review);
-            imageRepository.save(image);
-            images.add(image);
-
-            multipartFile.transferTo(file);
-        }
+        List<Image> images = saveImage(multipartFiles, review);
 
         review.setImages(images);
         return ReviewResponse.fromEntity(review);
@@ -149,6 +107,55 @@ public class ReviewService {
 
         reviewRepository.delete(review);
         return ReviewResponse.fromEntity(review);
+    }
+
+    private List<Image> saveImage(List<MultipartFile> multipartFiles, Review review)
+        throws IOException {
+        List<Image> images = new ArrayList<>();
+
+        log.info("multiPartFile : {}", (Object) multipartFiles);
+        for (MultipartFile multipartFile : multipartFiles) {
+            String originalName = multipartFile.getOriginalFilename();
+            log.info("originalName : {}", originalName);
+
+            long size = multipartFile.getSize();
+            log.info("size : {}", size);
+
+            if (size == 0) {
+                break;
+            }
+
+            String contentType = multipartFile.getContentType();
+            log.info("contentType : {}", contentType);
+
+            UUID uuid = UUID.randomUUID();
+            String newFileName = uuid + "_" + originalName;
+
+            String path = fileDir + File.separator + newFileName;
+            log.info("fullPath : {}", path);
+
+            File file = new File(path);
+
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+
+            Image image = Image.builder()
+                .uploadFileName(originalName)
+                .storedFileName(newFileName)
+                .path(path)
+                .fileSize(size)
+                .extension(contentType)
+                .build();
+
+            image.setReview(review);
+            imageRepository.save(image);
+            images.add(image);
+
+            multipartFile.transferTo(file);
+        }
+
+        return images;
     }
 
 }
