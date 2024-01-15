@@ -61,6 +61,56 @@ public class ReviewService {
         review.setMovie(movie);
         reviewRepository.save(review);
 
+        List<Image> images = saveImage(multipartFiles, review);
+
+        review.setImages(images);
+        return ReviewResponse.fromEntity(review);
+    }
+
+    public ReviewResponse getReview(Long reviewId) {
+        return ReviewResponse.fromEntity(reviewRepository.findById(reviewId)
+            .orElseThrow(() -> new CustomException(ErrorCode.REVIEW_NOT_FOUND)));
+    }
+
+    public ReviewResponse updateReview(Long reviewId, ReviewRequest request) {
+        Review review = reviewRepository.findById(reviewId)
+            .orElseThrow(() -> new CustomException(ErrorCode.REVIEW_NOT_FOUND));
+
+        Member currentMember = memberRepository.findByMemberName(
+                SecurityUtil.getCurrentMemberName())
+            .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+
+        if (!currentMember.getMemberName().equals(review.getMember().getMemberName())
+            && currentMember.getRole() != Role.ROLE_ADMIN) {
+            throw new CustomException(ErrorCode.MEMBER_NOT_MATCH);
+        }
+
+        review.updateContent(request.getContent());
+        review.updateStar(request.getStar());
+
+        reviewRepository.save(review);
+        return ReviewResponse.fromEntity(review);
+    }
+
+    public ReviewResponse deleteReview(Long reviewId) {
+        Review review = reviewRepository.findById(reviewId)
+            .orElseThrow(() -> new CustomException(ErrorCode.REVIEW_NOT_FOUND));
+
+        Member currentMember = memberRepository.findByMemberName(
+                SecurityUtil.getCurrentMemberName())
+            .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+
+        if (!currentMember.getMemberName().equals(review.getMember().getMemberName())
+            && currentMember.getRole() != Role.ROLE_ADMIN) {
+            throw new CustomException(ErrorCode.MEMBER_NOT_MATCH);
+        }
+
+        reviewRepository.delete(review);
+        return ReviewResponse.fromEntity(review);
+    }
+
+    private List<Image> saveImage(List<MultipartFile> multipartFiles, Review review)
+        throws IOException {
         List<Image> images = new ArrayList<>();
 
         log.info("multiPartFile : {}", (Object) multipartFiles);
@@ -105,50 +155,7 @@ public class ReviewService {
             multipartFile.transferTo(file);
         }
 
-        review.setImages(images);
-        return ReviewResponse.fromEntity(review);
-    }
-
-    public ReviewResponse getReview(Long reviewId) {
-        return ReviewResponse.fromEntity(reviewRepository.findById(reviewId)
-            .orElseThrow(() -> new CustomException(ErrorCode.REVIEW_NOT_FOUND)));
-    }
-
-    public ReviewResponse updateReview(Long reviewId, ReviewRequest request) {
-        Review review = reviewRepository.findById(reviewId)
-            .orElseThrow(() -> new CustomException(ErrorCode.REVIEW_NOT_FOUND));
-
-        Member currentMember = memberRepository.findByMemberName(
-                SecurityUtil.getCurrentMemberName())
-            .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-
-        if (!currentMember.getMemberName().equals(review.getMember().getMemberName())
-            && currentMember.getRole() != Role.ROLE_ADMIN) {
-            throw new CustomException(ErrorCode.MEMBER_NOT_MATCH);
-        }
-
-        review.updateContent(request.getContent());
-        review.updateStar(request.getStar());
-
-        reviewRepository.save(review);
-        return ReviewResponse.fromEntity(review);
-    }
-
-    public ReviewResponse deleteReview(Long reviewId) {
-        Review review = reviewRepository.findById(reviewId)
-            .orElseThrow(() -> new CustomException(ErrorCode.REVIEW_NOT_FOUND));
-
-        Member currentMember = memberRepository.findByMemberName(
-                SecurityUtil.getCurrentMemberName())
-            .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-
-        if (!currentMember.getMemberName().equals(review.getMember().getMemberName())
-            && !currentMember.getRole().equals(Role.ROLE_ADMIN)) {
-            throw new CustomException(ErrorCode.MEMBER_NOT_MATCH);
-        }
-
-        reviewRepository.delete(review);
-        return ReviewResponse.fromEntity(review);
+        return images;
     }
 
 }

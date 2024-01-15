@@ -1,6 +1,6 @@
 package com.personal.movie.domain;
 
-import com.personal.movie.domain.constants.Star;
+import com.personal.movie.domain.constants.Category;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,48 +19,58 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
-@Getter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Review extends BaseEntity {
+@NoArgsConstructor
+@Getter
+public class Post extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
+
     private String content;
 
     @Enumerated(EnumType.STRING)
-    private Star star;
+    private Category category;
+
+    private int viewCount;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
-    @JoinColumn(name = "movie_id")
-    private Movie movie;
-
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
 
-    public void updateContent(String content) {
-        this.content = content;
-    }
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Heart> hearts;
 
-    public void updateStar(Star star) {
-        this.star = star;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
+
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     public void setImages(List<Image> images) {
         this.images = images;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void updateTitle(String title) {
+        this.title = title;
     }
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void updateCategory(Category category) {
+        this.category = category;
+    }
+
+    public void updateViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 }

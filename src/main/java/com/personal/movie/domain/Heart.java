@@ -12,39 +12,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Image extends BaseEntity {
+public class Heart extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String uploadFileName;
-
-    private String storedFileName;
-
-    private String path;
-
-    private Long fileSize;
-
-    private String extension;
-
     @ManyToOne
-    @JoinColumn(name = "review_id")
-    private Review review;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
-
-    public void setReview(Review review) {
-        this.review = review;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
 }

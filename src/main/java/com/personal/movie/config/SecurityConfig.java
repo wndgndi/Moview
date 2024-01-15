@@ -40,6 +40,13 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/review").hasAnyRole("USER", "ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/review/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/review/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/post").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/post/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/post/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.GET, "/post/my").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/comment/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/comment/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/comment/**").hasAnyRole("USER", "ADMIN")
 
                 .anyRequest().authenticated())
             .exceptionHandling((exceptionHandling) ->

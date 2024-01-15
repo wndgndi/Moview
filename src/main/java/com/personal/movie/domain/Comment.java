@@ -13,38 +13,26 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Image extends BaseEntity {
+public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String uploadFileName;
-
-    private String storedFileName;
-
-    private String path;
-
-    private Long fileSize;
-
-    private String extension;
+    private String content;
 
     @ManyToOne
-    @JoinColumn(name = "review_id")
-    private Review review;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
 
-    public void setReview(Review review) {
-        this.review = review;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
+    public void updateContent(String content) {
+        this.content = content;
     }
 }
