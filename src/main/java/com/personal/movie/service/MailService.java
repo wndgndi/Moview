@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ public class MailService {
     private final JavaMailSender javaMailSender;
     private final RedisComponent redisComponent;
 
+    @Async("mailExecutor")
     public void sendAuthEmail(String email) {
         String authKey = getAuthKey();
         String subject = "Moview 인증 메일입니다.";
